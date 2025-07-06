@@ -1,8 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: ExampleTest
 -------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.676 s <<< FAILURE! -- in ExampleTest
-ExampleTest.testWithMock -- Time elapsed: 0.658 s <<< ERROR!
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.671 s <<< FAILURE! -- in ExampleTest
+ExampleTest.testWithMock -- Time elapsed: 0.652 s <<< ERROR!
 org.mockito.exceptions.base.MockitoException: 
 
 Mockito cannot mock this class: class UsuarioService.
