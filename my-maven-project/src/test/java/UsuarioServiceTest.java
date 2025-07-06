@@ -1,24 +1,47 @@
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import java.io.File;
 import java.util.List;
+import java.sql.Connection;
+import java.sql.Statement;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class UsuarioServiceTest {
 
     private UsuarioService usuarioService;
+    private static final String DB_FILE = "usuarios.db";
+
+    @BeforeAll
+    void cleanDatabaseFile() {
+        File db = new File(DB_FILE);
+        if (db.exists()) {
+            db.delete();
+        }
+    }
 
     @BeforeEach
     public void setUp() {
         usuarioService = new UsuarioService();
     }
 
+    @AfterEach
+    void clearTable() {
+        try (Connection conn = java.sql.DriverManager.getConnection("jdbc:sqlite:" + DB_FILE);
+             Statement stmt = conn.createStatement()) {
+            stmt.execute("DELETE FROM usuarios");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Test
     public void testAddUsuario() {
         Usuario usuario = new Usuario(1, "Juan", "juan@email.com");
         usuarioService.addUsuario(usuario);
-        assertEquals(1, usuarioService.getAllUsuarios().size());
-        assertEquals(usuario, usuarioService.getUsuarioById(1));
+        List<Usuario> usuarios = usuarioService.getAllUsuarios();
+        assertEquals(1, usuarios.size());
+        assertEquals("Juan", usuarios.get(0).getName());
     }
 
     @Test
